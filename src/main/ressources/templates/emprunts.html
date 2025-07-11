@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des emprunts</title>
+</head>
+<body>
+
+<h1>Liste des emprunts</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Adhérent</th>
+            <th>Livre</th>
+            <th>Type de prêt</th>
+            <th>Date de prêt</th>
+            <th>Date de retour prévu</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+         <tr th:each="emprunt : ${emprunts}">
+            <td th:text="|[[${emprunt.adherent.id}]] - [[${emprunt.adherent.nom}]]|"></td>
+            <td th:text="|[[${emprunt.exemplaire.livre.id}]] - [[${emprunt.exemplaire.livre.titre}]]|"></td>
+            <td th:text="${emprunt.typePret}"></td>
+            <td th:text="${emprunt.datePret}"></td>
+            <td th:text="${emprunt.dateRetourPrevu}"></td>
+            <td th:text="${emprunt.statut}"></td>
+        </tr>
+
+    </tbody>
+</table>
+
+<p><a href="/emprunt">Enregistrer un nouveau emprunt</a></p>
+
+</body>
+</html>
