@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enregistrement d'un emprunt</title>
+</head>
+<body>
+
+    <h1>Enregistrement d'un emprunt</h1>
+
+    <!-- ✅ Bloc d'affichage d'erreur -->
+    <!-- <div th:if="${error}" style="color: red; font-weight: bold;">
+        <p th:text="${error}"></p>
+    </div> -->
+    <div th:if="${error}" style="color:red;">
+        <p th:text="${error}"></p>
+    </div>
+
+
+    <form th:action="@{/emprunt}" method="post">
+        <label>Numéro Adhérent :
+            <input type="number" name="idAdherent" required />
+        </label>
+        <br>
+
+        <label>Référence exemplaire :
+            <input type="number" name="idExemplaire" required />
+        </label>
+        <br>
+
+        <label>Type de prêt :
+            <select name="typePret">
+                <option value="sur place">Sur place</option>
+                <option value="emporte">Emporté</option>
+            </select>
+        </label>
+        <br>
+
+        <label>Date du prêt :
+            <input type="date" name="datePret" required />
+        </label>
+        <br><br>
+
+        <button type="submit">Enregistrer</button>
+    </form>
+
+    <br>
+    <a th:href="@{/emprunts}">Voir la liste des prets</a>
+
+    <br>
+    <a th:href="@{/inscription}">Inscrire un adherent</a>
+
+    <br>
+    <a th:href="@{/retour}">Enregistrer un retour</a>
+
+    <br>
+    <a th:href="@{/prolongations}">Voir les demandes de prolongation</a>
+
+</body>
+</html>
