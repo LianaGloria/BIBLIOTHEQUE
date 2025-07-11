@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes prêts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        header a {
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: bold;
+            border: 1px solid #1976d2;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        header a:hover {
+            background-color: #1976d2;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #eee;
+        }
+        button.in-table {
+            padding: 5px 10px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button.in-table:hover {
+            background-color: #125ea2;
+        }
+    </style>
+</head>
+<body>
+    <div th:if="${messageSuccess}" style="color: green; font-weight: bold;">
+    <p th:text="${messageSuccess}"></p>
+    </div>
+    <div th:if="${messageError}" style="color: red; font-weight: bold;">
+        <p th:text="${messageError}"></p>
+    </div>
+
+    <header>
+        <a th:href="@{/livres}">Voir les livres disponibles</a>
+        <a th:href="@{/mes-reservations}">Mes réservations</a>
+        <a th:href="@{/mes-penalites}">Mes penalites</a>
+        <a th:href="@{/logout}">Déconnexion</a>
+    </header>
+
+    <h1>Mes prêts en cours</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID Emprunt</th>
+            <th>ID Exemplaire</th>
+            <th>Titre du livre</th>
+            <th>Date d'emprunt</th>
+            <th>Date retour prévue</th>
+            <th>Type</th>
+            <th>Prolongé</th>
+            <th>Nombre de prolongations</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="e : ${emprunts}">
+            <td th:text="${e.id}">1</td>
+            <td th:text="${e.exemplaire.id}">1</td>
+            <td th:text="${e.exemplaire.livre.titre}">Titre</td>
+            <td th:text="${e.datePret}">2025-07-01</td>
+            <td th:text="${e.dateRetourPrevu}">2025-07-08</td>
+            <td th:text="${e.typePret}">emporte</td>
+            <td th:text="${e.prolongation ? 'Oui' : 'Non'}">Non</td>
+            <td th:text="${e.nbprolongations}">0</td>
+            <td>
+                <form th:action="@{/prolonger}" method="post">
+                    <input type="hidden" name="empruntId" th:value="${e.id}" />
+                    <button type="submit"
+                            th:disabled="${(e.rendu != null and e.rendu)}"
+                            class="in-table">Prolonger</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
