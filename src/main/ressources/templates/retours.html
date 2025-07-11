@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des retours</title>
+</head>
+<body>
+
+<h1>Liste des retours</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID Emprunt</th>
+            <th>Prénom Adhérent</th>
+            <th>Titre du Livre</th>
+            <th>Date de Retour</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="retour : ${retours}">
+            <td th:text="${retour.emprunt.id}"></td>
+            <td th:text="${retour.emprunt.adherent.prenom}"></td>
+            <td th:text="${retour.emprunt.exemplaire.livre.titre}"></td>
+            <td th:text="${retour.dateRetour}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
