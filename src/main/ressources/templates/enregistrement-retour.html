@@ -1,0 +1,146 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Retour d’un livre</title>
+</head>
+<body>
+
+<h1>Enregistrement d’un retour</h1>
+
+<form th:action="@{/retour}" method="post">
+    <label>Numero Adhérent :</label>
+    <input type="number" name="idAdherent" required><br><br>
+
+    <label>Reference Livre :</label>
+    <input type="number" name="idExemplaire" required><br><br>
+
+    <label>Date de retour :</label>
+    <input type="date" name="dateRetour" required><br><br>
+
+    <button type="submit">Enregistrer le retour</button>
+</form>
+
+<div th:if="${error}">
+    <p th:text="${error}" style="color: red;"></p>
+</div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Retour de livre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 10px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #135ca4;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Retour d'exemplaire</h2>
+
+    <form th:action="@{/retour}" method="post">
+        <label for="idExemplaire">ID de l'exemplaire :</label>
+        <input type="number" id="idExemplaire" name="idExemplaire" required>
+
+        <label for="idAdherent">ID de l'adhérent :</label>
+        <input type="number" id="idAdherent" name="idAdherent" required>
+
+        <label for="dateRetour">Date de retour :</label>
+        <input type="date" id="dateRetour" name="dateRetour" required>
+
+        <button type="submit">Enregistrer le retour</button>
+    </form>
+
+    <div th:if="${messageSuccess}" class="message success" th:text="${messageSuccess}"></div>
+    <div th:if="${error}" class="message error" th:text="${error}"></div>
+</div>
+
+    
+    <br>
+    <a th:href="@{/retours}">Voir la liste des retours</a>
+
+    <br>
+    <a th:href="@{/inscription}">Inscrire un adherent</a>
+
+    <br>
+    <a th:href="@{/emprunt}">Enregistrer un pret</a>
+
+    <br>
+    <a th:href="@{/prolongations}">Voir les demandes de prolongation</a>
+
+</body>
+</html>
+
