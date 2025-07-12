@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>livres disponibles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        header a {
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: bold;
+            border: 1px solid #1976d2;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        header a:hover {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .livre {
+            background: white;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .titre-auteur {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #222;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        button {
+            padding: 6px 12px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #125ea2;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .statut {
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        .disponible {
+            color: green;
+        }
+        .indisponible {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a th:href="@{/liste-emprunts}">Voir mes prêts</a>
+    <a th:href="@{/mes-reservations}">Mes réservations</a>
+    <a th:href="@{/mes-penalites}">Mes penalites</a>
+    <a th:href="@{/logout}">Déconnexion</a>
+</header>
+
+<h1>livres disponibles</h1>
+
+    <div th:if="${messageError}" style="color: red; font-weight: bold;">
+        <p th:text="${messageError}"></p>
+    </div>
+        <div th:if="${messageSuccess}" style="color: green; font-weight: bold;">
+    <p th:text="${messageSuccess}"></p>
+    </div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Titre — Auteur</th>
+            <th>Exemplaire ID</th>
+            <th>Statut</th> <!-- colonne statut avant action -->
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="exemplaire : ${exemplaires}">
+            <td th:text="${exemplaire.livre.titre + ' — ' + exemplaire.livre.auteur}">Titre — Auteur</td>
+            <td th:text="${exemplaire.id}">1</td>
+            <td>
+                <span class="statut" th:text="${exemplaire.statut.name()}"
+                      th:classappend="${exemplaire.statut == T(biblio.demo.model.Exemplaire.StatutExemplaire).disponible} ? 'disponible' : 'indisponible'">
+                    Statut
+                </span>
+            </td>
+            <td>
+                <!-- Dans la boucle de livres (livres.html) -->
+                <form th:action="@{/reserver}" method="post" style="display:inline;">
+                    <input type="hidden" name="exemplaireId" th:value="${exemplaire.id}" />
+
+                    <!-- Champ de date à remplir avant soumission -->
+                    <input type="date" name="dateReservation" required />
+
+                    <button type="submit">Réserver</button>
+                </form>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+    

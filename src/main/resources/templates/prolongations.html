@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Demandes de prolongation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .message-success {
+            background-color: #e0f7e9;
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
+        }
+
+        .message-error {
+            background-color: #ffe0e0;
+            color: #c62828;
+            border: 1px solid #c62828;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        form {
+            display: inline;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-accept {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .btn-accept:hover {
+            background-color: #388e3c;
+        }
+
+        .btn-refuse {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-refuse:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Demandes de prolongation</h1>
+
+<!-- Message flash -->
+<div th:if="${message}" class="message message-success" th:text="${message}"></div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom Adhérent</th>
+            <th>Emprunt ID</th>
+            <th>Date Demande</th>
+            <th>Date Retour Actuelle</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="demande : ${demandes}">
+            <td th:text="${demande.emprunt.adherent.nom + ' ' + demande.emprunt.adherent.prenom}">Nom Prénom</td>
+            <td th:text="${demande.emprunt.id}">123</td>
+            <td th:text="${demande.dateDemande}">2025-07-01</td>
+            <td th:text="${demande.emprunt.dateRetourPrevu}">2025-07-08</td>
+            <td>
+                <form th:action="@{/prolongations/accepter}" method="post">
+                    <input type="hidden" name="id" th:value="${demande.id}" />
+                    <button class="btn-accept" type="submit">Accepter</button>
+                </form>
+                <form th:action="@{/prolongations/refuser}" method="post">
+                    <input type="hidden" name="id" th:value="${demande.id}" />
+                    <button class="btn-refuse" type="submit">Refuser</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+    <br>
+    <a th:href="@{/inscription}">Inscrire un adherent</a>
+
+    <br>
+    <a th:href="@{/emprunt}">Enregistrer un pret</a>
+
+    <br>
+    <a th:href="@{/prolongations}">Voir les demandes de prolongation</a>
+
+    <br>
+    <a th:href="@{/retour}">Enregistrer un retour </a>
+    
+</body>
+</html>

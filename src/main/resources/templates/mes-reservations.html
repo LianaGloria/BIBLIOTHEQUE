@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mes Réservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f2f2f2;
+        }
+
+        
+        header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        header a {
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: bold;
+            border: 1px solid #1976d2;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        header a:hover {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .btn-retour {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 16px;
+            background-color: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-retour:hover {
+            background-color: #125ea2;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a th:href="@{/liste-emprunts}">Voir mes prêts</a>
+        <a th:href="@{/livres}">Voir les livres</a>
+        <a th:href="@{/mes-penalites}">Mes penalites</a>
+        <a th:href="@{/logout}">Déconnexion</a>
+    </header>
+
+    <h1>Mes Réservations</h1>
+
+    <div th:if="${messageError}" style="color: red; font-weight: bold;">
+        <p th:text="${messageError}"></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Livre</th>
+                <th>Exemplaire ID</th>
+                <th>Date</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="res : ${reservations}">
+                <td th:text="${res.exemplaire.livre.titre}">Titre</td>
+                <td th:text="${res.exemplaire.id}">ID</td>
+                <td th:text="${res.dateReservation}">2025-07-07</td>
+                <td th:text="${res.statutReservation}">en_attente</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/livres}" class="btn-retour">← Retour aux livres</a>
+
+</body>
+</html>
