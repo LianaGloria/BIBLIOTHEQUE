@@ -1,101 +1,180 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>livres disponibles</title>
+    <title>Livres disponibles</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f8f8f8;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f1a22 0%, #1a252f 50%, #243242 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px;
+            color: #ecf0f1;
         }
 
         header {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 30px;
+            gap: 12px;
         }
 
         header a {
             text-decoration: none;
-            color: #1976d2;
-            font-weight: bold;
-            border: 1px solid #1976d2;
-            padding: 6px 12px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
+            color: #d4a332;
+            font-weight: 600;
+            border: 2px solid #d4a332;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(212, 163, 50, 0.1);
         }
 
         header a:hover {
-            background-color: #1976d2;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(187, 143, 43, 0.3);
         }
 
         h1 {
             margin-bottom: 30px;
-            color: #333;
+            color: #ecf0f1;
+            font-size: 28px;
+            font-weight: 600;
         }
 
-        .livre {
-            background: white;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 6px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
-
-        .titre-auteur {
-            font-size: 1.3em;
+        .message-success {
+            color: #27ae60;
             font-weight: bold;
-            margin-bottom: 12px;
-            color: #222;
+            background: rgba(39, 174, 96, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            margin-bottom: 20px;
+        }
+
+        .message-error {
+            color: #e74c3c;
+            font-weight: bold;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 20px;
+            background-color: #2c3e50;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px 12px;
+            border-bottom: 1px solid #34495e;
+            padding: 16px;
             text-align: left;
         }
 
         th {
-            background-color: #1976d2;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
-        button {
-            padding: 6px 12px;
-            background-color: #1976d2;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        td {
+            color: #bdc3c7;
+            background-color: #2c3e50;
+        }
+
+        tr:hover td {
+            background-color: #34495e;
             transition: background-color 0.3s ease;
         }
 
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
         button:hover:not(:disabled) {
-            background-color: #125ea2;
+            background: linear-gradient(135deg, #d4a332 0%, #bb8f2b 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(187, 143, 43, 0.3);
         }
 
         button:disabled {
-            background-color: #aaa;
+            background: #7f8c8d;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .statut {
             font-weight: bold;
             vertical-align: middle;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+
         .disponible {
-            color: green;
+            background: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+            border: 1px solid #27ae60;
         }
+
         .indisponible {
-            color: red;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        input[type="date"] {
+            padding: 8px 12px;
+            border: 2px solid #34495e;
+            border-radius: 6px;
+            background-color: #34495e;
+            color: #ecf0f1;
+            font-size: 14px;
+            margin-right: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #d4a332;
+            box-shadow: 0 0 0 3px rgba(212, 163, 50, 0.2);
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
@@ -104,25 +183,25 @@
 <header>
     <a th:href="@{/liste-emprunts}">Voir mes prêts</a>
     <a th:href="@{/mes-reservations}">Mes réservations</a>
-    <a th:href="@{/mes-penalites}">Mes penalites</a>
+    <a th:href="@{/mes-penalites}">Mes pénalités</a>
     <a th:href="@{/logout}">Déconnexion</a>
 </header>
 
-<h1>livres disponibles</h1>
+<h1>Livres disponibles</h1>
 
-    <div th:if="${messageError}" style="color: red; font-weight: bold;">
-        <p th:text="${messageError}"></p>
-    </div>
-        <div th:if="${messageSuccess}" style="color: green; font-weight: bold;">
+<div th:if="${messageError}" class="message-error">
+    <p th:text="${messageError}"></p>
+</div>
+<div th:if="${messageSuccess}" class="message-success">
     <p th:text="${messageSuccess}"></p>
-    </div>
+</div>
 
 <table>
     <thead>
         <tr>
             <th>Titre — Auteur</th>
             <th>Exemplaire ID</th>
-            <th>Statut</th> <!-- colonne statut avant action -->
+            <th>Statut</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -137,16 +216,11 @@
                 </span>
             </td>
             <td>
-                <!-- Dans la boucle de livres (livres.html) -->
-                <form th:action="@{/reserver}" method="post" style="display:inline;">
+                <form th:action="@{/reserver}" method="post">
                     <input type="hidden" name="exemplaireId" th:value="${exemplaire.id}" />
-
-                    <!-- Champ de date à remplir avant soumission -->
                     <input type="date" name="dateReservation" required />
-
                     <button type="submit">Réserver</button>
                 </form>
-
             </td>
         </tr>
     </tbody>
@@ -154,4 +228,3 @@
 
 </body>
 </html>
-    

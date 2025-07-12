@@ -5,55 +5,97 @@
     <title>Demandes de prolongation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1a22 0%, #1a252f 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #2c3e50;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #243242 0%, #2c3e50 100%);
+            color: #f8f9fa;
             padding: 30px;
+            text-align: center;
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 25px;
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content {
+            padding: 30px;
+            background: #2c3e50;
         }
 
         .message {
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            animation: slideIn 0.5s ease-out;
+            color: #f8f9fa;
         }
 
         .message-success {
-            background-color: #e0f7e9;
-            color: #2e7d32;
-            border: 1px solid #2e7d32;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
+            border-left: 4px solid #d4a332;
         }
 
         .message-error {
-            background-color: #ffe0e0;
-            color: #c62828;
-            border: 1px solid #c62828;
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            border-left: 4px solid #e74c3c;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 6px;
+            background: #243242;
+            border-radius: 8px;
             overflow: hidden;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         th {
-            background-color: #1976d2;
-            color: white;
+            background: linear-gradient(135deg, #1a252f 0%, #0f1a22 100%);
+            color: #f8f9fa;
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #34495e;
+            transition: all 0.3s ease;
+            color: #ecf0f1;
         }
 
         tr:hover {
-            background-color: #f1f1f1;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
         form {
@@ -61,81 +103,201 @@
         }
 
         button {
-            padding: 6px 12px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        button:hover::before {
+            width: 100px;
+            height: 100px;
         }
 
         .btn-accept {
-            background-color: #4caf50;
+            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
         }
 
         .btn-accept:hover {
-            background-color: #388e3c;
+            background: linear-gradient(135deg, #388e3c 0%, #4caf50 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
         }
 
         .btn-refuse {
-            background-color: #f44336;
+            background: linear-gradient(135deg, #f44336 0%, #e57373 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
         }
 
         .btn-refuse:hover {
-            background-color: #c62828;
+            background: linear-gradient(135deg, #c62828 0%, #f44336 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.6);
+        }
+
+        .navigation {
+            background: #243242;
+            padding: 20px 30px;
+            border-top: 1px solid #243242;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #bb8f2b;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(135deg, #bb8f2b 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-<h1>Demandes de prolongation</h1>
+<div class="container">
+    <div class="header">
+        <h1>Demandes de prolongation</h1>
+    </div>
 
-<!-- Message flash -->
-<div th:if="${message}" class="message message-success" th:text="${message}"></div>
+    <div class="content">
+        <!-- Message flash -->
+        <div th:if="${message}" class="message message-success" th:text="${message}"></div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Nom Adhérent</th>
-            <th>Emprunt ID</th>
-            <th>Date Demande</th>
-            <th>Date Retour Actuelle</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="demande : ${demandes}">
-            <td th:text="${demande.emprunt.adherent.nom + ' ' + demande.emprunt.adherent.prenom}">Nom Prénom</td>
-            <td th:text="${demande.emprunt.id}">123</td>
-            <td th:text="${demande.dateDemande}">2025-07-01</td>
-            <td th:text="${demande.emprunt.dateRetourPrevu}">2025-07-08</td>
-            <td>
-                <form th:action="@{/prolongations/accepter}" method="post">
-                    <input type="hidden" name="id" th:value="${demande.id}" />
-                    <button class="btn-accept" type="submit">Accepter</button>
-                </form>
-                <form th:action="@{/prolongations/refuser}" method="post">
-                    <input type="hidden" name="id" th:value="${demande.id}" />
-                    <button class="btn-refuse" type="submit">Refuser</button>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
+        <table th:if="${not #lists.isEmpty(demandes)}">
+            <thead>
+                <tr>
+                    <th>Nom Adhérent</th>
+                    <th>Emprunt ID</th>
+                    <th>Date Demande</th>
+                    <th>Date Retour Actuelle</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="demande : ${demandes}">
+                    <td th:text="${demande.emprunt.adherent.nom + ' ' + demande.emprunt.adherent.prenom}">Nom Prénom</td>
+                    <td th:text="${demande.emprunt.id}">123</td>
+                    <td th:text="${demande.dateDemande}">2025-07-01</td>
+                    <td th:text="${demande.emprunt.dateRetourPrevu}">2025-07-08</td>
+                    <td>
+                        <div class="actions">
+                            <form th:action="@{/prolongations/accepter}" method="post">
+                                <input type="hidden" name="id" th:value="${demande.id}" />
+                                <button class="btn-accept" type="submit">Accepter</button>
+                            </form>
+                            <form th:action="@{/prolongations/refuser}" method="post">
+                                <input type="hidden" name="id" th:value="${demande.id}" />
+                                <button class="btn-refuse" type="submit">Refuser</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
+        <div th:if="${#lists.isEmpty(demandes)}" class="empty-state">
+            <div style="font-size: 4em; margin-bottom: 20px;">📋</div>
+            <h3>Aucune demande de prolongation</h3>
+            <p>Il n'y a actuellement aucune demande de prolongation en attente.</p>
+        </div>
+    </div>
 
-    <br>
-    <a th:href="@{/inscription}">Inscrire un adherent</a>
+    <div class="navigation">
+        <div class="nav-links">
+            <a th:href="@{/inscription}">Inscrire un adhérent</a>
+            <a th:href="@{/emprunt}">Enregistrer un prêt</a>
+            <a th:href="@{/emprunts}">Voir les emprunts</a>
+            <a th:href="@{/retour}">Enregistrer un retour</a>
+        </div>
+    </div>
+</div>
 
-    <br>
-    <a th:href="@{/emprunt}">Enregistrer un pret</a>
-
-    <br>
-    <a th:href="@{/prolongations}">Voir les demandes de prolongation</a>
-
-    <br>
-    <a th:href="@{/retour}">Enregistrer un retour </a>
-    
 </body>
 </html>

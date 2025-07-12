@@ -1,146 +1,293 @@
-<!-- <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Retour d’un livre</title>
-</head>
-<body>
-
-<h1>Enregistrement d’un retour</h1>
-
-<form th:action="@{/retour}" method="post">
-    <label>Numero Adhérent :</label>
-    <input type="number" name="idAdherent" required><br><br>
-
-    <label>Reference Livre :</label>
-    <input type="number" name="idExemplaire" required><br><br>
-
-    <label>Date de retour :</label>
-    <input type="date" name="dateRetour" required><br><br>
-
-    <button type="submit">Enregistrer le retour</button>
-</form>
-
-<div th:if="${error}">
-    <p th:text="${error}" style="color: red;"></p>
-</div>
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Retour de livre</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            padding: 40px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: 
+                radial-gradient(circle at 25% 25%, #1a252f 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #243242 0%, transparent 50%),
+                linear-gradient(135deg, #0f1a22 0%, #1a252f 25%, #243242 50%, #1a252f 75%, #0f1a22 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 30% 20%, rgba(187, 143, 43, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(187, 143, 43, 0.08) 0%, transparent 40%);
+            pointer-events: none;
         }
 
         .container {
-            max-width: 500px;
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin: auto;
+            background: rgba(44, 62, 80, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 100%;
         }
 
-        h2 {
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #34495e, #2c3e50, #1a252f);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        h1 {
+            color: #ecf0f1;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             text-align: center;
-            color: #333;
-            margin-bottom: 25px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-            color: #444;
+            color: #bdc3c7;
+            font-size: 1.1em;
+            font-weight: 500;
         }
 
         input[type="number"],
         input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(52, 73, 94, 0.7);
+            color: #ecf0f1;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        button {
-            margin-top: 25px;
-            width: 100%;
-            padding: 10px;
-            background-color: #1976d2;
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            outline: none;
+            background: rgba(52, 73, 94, 0.9);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .submit-button {
+            padding: 18px 35px;
+            background: linear-gradient(45deg, #bb8f2b, #d4a332);
             color: white;
             border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 16px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(187, 143, 43, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
         }
 
-        button:hover {
-            background-color: #135ca4;
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-button:hover::before {
+            left: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(187, 143, 43, 0.4);
         }
 
         .message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-align: center;
         }
 
         .success {
-            background-color: #d4edda;
-            color: #155724;
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
         }
 
         .error {
-            background-color: #f8d7da;
-            color: #721c24;
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        .navigation-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(189, 195, 199, 0.2);
+        }
+
+        .nav-link {
+            color: #bb8f2b;
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+            text-align: center;
+        }
+
+        .nav-link:hover {
+            color: #d4a332;
+            transform: translateX(5px);
+        }
+
+        .decorative-element {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decorative-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .decorative-element:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .decorative-element:nth-child(3) {
+            bottom: 10%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .form-group {
+                gap: 6px;
+            }
+            
+            label {
+                font-size: 1em;
+            }
+            
+            input[type="number"],
+            input[type="date"] {
+                padding: 10px 14px;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>Retour d'exemplaire</h2>
-
-    <form th:action="@{/retour}" method="post">
-        <label for="idExemplaire">ID de l'exemplaire :</label>
-        <input type="number" id="idExemplaire" name="idExemplaire" required>
-
-        <label for="idAdherent">ID de l'adhérent :</label>
-        <input type="number" id="idAdherent" name="idAdherent" required>
-
-        <label for="dateRetour">Date de retour :</label>
-        <input type="date" id="dateRetour" name="dateRetour" required>
-
-        <button type="submit">Enregistrer le retour</button>
-    </form>
-
-    <div th:if="${messageSuccess}" class="message success" th:text="${messageSuccess}"></div>
-    <div th:if="${error}" class="message error" th:text="${error}"></div>
-</div>
-
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
     
-    <br>
-    <a th:href="@{/retours}">Voir la liste des retours</a>
+    <div class="container">
+        <h1>📖 Retour d'exemplaire</h1>
 
-    <br>
-    <a th:href="@{/inscription}">Inscrire un adherent</a>
+        <!-- Messages de succès et d'erreur -->
+        <div th:if="${messageSuccess}" class="message success" th:text="${messageSuccess}"></div>
+        <div th:if="${error}" class="message error" th:text="${error}"></div>
 
-    <br>
-    <a th:href="@{/emprunt}">Enregistrer un pret</a>
+        <form th:action="@{/retour}" method="post">
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="idExemplaire">ID de l'exemplaire :</label>
+                    <input type="number" id="idExemplaire" name="idExemplaire" required>
+                </div>
 
-    <br>
-    <a th:href="@{/prolongations}">Voir les demandes de prolongation</a>
+                <div class="form-group">
+                    <label for="idAdherent">ID de l'adhérent :</label>
+                    <input type="number" id="idAdherent" name="idAdherent" required>
+                </div>
 
+                <div class="form-group">
+                    <label for="dateRetour">Date de retour :</label>
+                    <input type="date" id="dateRetour" name="dateRetour" required>
+                </div>
+
+                <button type="submit" class="submit-button">Enregistrer le retour</button>
+            </div>
+        </form>
+
+        <div class="navigation-links">
+            <a class="nav-link" th:href="@{/retours}">📋 Voir la liste des retours</a>
+            <a class="nav-link" th:href="@{/inscription}">👤 Inscrire un adhérent</a>
+            <a class="nav-link" th:href="@{/emprunt}">📚 Enregistrer un prêt</a>
+            <a class="nav-link" th:href="@{/prolongations}">⏰ Voir les demandes de prolongation</a>
+        </div>
+    </div>
 </body>
 </html>
-

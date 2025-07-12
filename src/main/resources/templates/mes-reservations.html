@@ -4,78 +4,142 @@
     <title>Mes Réservations</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f1a22 0%, #1a252f 50%, #243242 100%);
+            min-height: 100vh;
+            margin: 0;
             padding: 30px;
-            background-color: #f2f2f2;
+            color: #ecf0f1;
         }
 
-        
         header {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 30px;
+            gap: 12px;
         }
 
         header a {
             text-decoration: none;
-            color: #1976d2;
-            font-weight: bold;
-            border: 1px solid #1976d2;
-            padding: 6px 12px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
+            color: #d4a332;
+            font-weight: 600;
+            border: 2px solid #d4a332;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(212, 163, 50, 0.1);
         }
 
         header a:hover {
-            background-color: #1976d2;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(187, 143, 43, 0.3);
         }
 
         h1 {
-            color: #333;
+            color: #ecf0f1;
             margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .message-error {
+            color: #e74c3c;
+            font-weight: bold;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: white;
-            border-radius: 6px;
+            background-color: #2c3e50;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         th, td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #ddd;
+            padding: 16px;
+            border-bottom: 1px solid #34495e;
             text-align: left;
         }
 
         th {
-            background-color: #1976d2;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
-            font-weight: bold;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
-        tr:hover {
-            background-color: #f9f9f9;
+        td {
+            color: #bdc3c7;
+            background-color: #2c3e50;
+        }
+
+        tr:hover td {
+            background-color: #34495e;
+            transition: background-color 0.3s ease;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         .btn-retour {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 16px;
-            background-color: #1976d2;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
             text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(187, 143, 43, 0.3);
         }
 
         .btn-retour:hover {
-            background-color: #125ea2;
+            background: linear-gradient(135deg, #d4a332 0%, #bb8f2b 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(187, 143, 43, 0.4);
+        }
+
+        .btn-retour:active {
+            transform: translateY(0);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .en-attente {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid #f1c40f;
+        }
+
+        .confirmee {
+            background: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+        .annulee {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
         }
     </style>
 </head>
@@ -84,13 +148,13 @@
     <header>
         <a th:href="@{/liste-emprunts}">Voir mes prêts</a>
         <a th:href="@{/livres}">Voir les livres</a>
-        <a th:href="@{/mes-penalites}">Mes penalites</a>
+        <a th:href="@{/mes-penalites}">Mes pénalités</a>
         <a th:href="@{/logout}">Déconnexion</a>
     </header>
 
     <h1>Mes Réservations</h1>
 
-    <div th:if="${messageError}" style="color: red; font-weight: bold;">
+    <div th:if="${messageError}" class="message-error">
         <p th:text="${messageError}"></p>
     </div>
 
@@ -108,7 +172,13 @@
                 <td th:text="${res.exemplaire.livre.titre}">Titre</td>
                 <td th:text="${res.exemplaire.id}">ID</td>
                 <td th:text="${res.dateReservation}">2025-07-07</td>
-                <td th:text="${res.statutReservation}">en_attente</td>
+                <td>
+                    <span class="status-badge" 
+                          th:text="${res.statutReservation}"
+                          th:classappend="${res.statutReservation.toLowerCase().replace('_', '-')}">
+                        en_attente
+                    </span>
+                </td>
             </tr>
         </tbody>
     </table>

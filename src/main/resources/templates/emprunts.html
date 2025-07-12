@@ -3,36 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des emprunts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: 
+                radial-gradient(circle at 25% 25%, #1a252f 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #243242 0%, transparent 50%),
+                linear-gradient(135deg, #0f1a22 0%, #1a252f 25%, #243242 50%, #1a252f 75%, #0f1a22 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 30% 20%, rgba(187, 143, 43, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(187, 143, 43, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .container {
+            background: rgba(44, 62, 80, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #34495e, #2c3e50, #1a252f);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        h1 {
+            color: #ecf0f1;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(52, 73, 94, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        th {
+            background: linear-gradient(45deg, #bb8f2b, #d4a332);
+            color: white;
+            padding: 15px 12px;
+            font-weight: 600;
+            text-align: left;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(189, 195, 199, 0.1);
+            color: #ecf0f1;
+            font-size: 0.9em;
+        }
+
+        tr:hover {
+            background: rgba(52, 73, 94, 0.5);
+            transition: background 0.3s ease;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #bb8f2b, #d4a332);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(187, 143, 43, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(187, 143, 43, 0.4);
+        }
+
+        .decorative-element {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decorative-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .decorative-element:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .decorative-element:nth-child(3) {
+            bottom: 10%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.8em;
+            }
+            
+            .action-button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    
+    <div class="container">
+        <h1>📚 Liste des emprunts</h1>
 
-<h1>Liste des emprunts</h1>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Adhérent</th>
+                        <th>Livre</th>
+                        <th>Type de prêt</th>
+                        <th>Date de prêt</th>
+                        <th>Date de retour prévu</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="emprunt : ${emprunts}">
+                        <td th:text="|${emprunt.adherent.id} - ${emprunt.adherent.nom}|"></td>
+                        <td th:text="|${emprunt.exemplaire.livre.id} - ${emprunt.exemplaire.livre.titre}|"></td>
+                        <td th:text="${emprunt.typePret}"></td>
+                        <td th:text="${emprunt.datePret}"></td>
+                        <td th:text="${emprunt.dateRetourPrevu}"></td>
+                        <td th:text="${emprunt.statut}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Adhérent</th>
-            <th>Livre</th>
-            <th>Type de prêt</th>
-            <th>Date de prêt</th>
-            <th>Date de retour prévu</th>
-            <th>Statut</th>
-        </tr>
-    </thead>
-    <tbody>
-         <tr th:each="emprunt : ${emprunts}">
-            <td th:text="|[[${emprunt.adherent.id}]] - [[${emprunt.adherent.nom}]]|"></td>
-            <td th:text="|[[${emprunt.exemplaire.livre.id}]] - [[${emprunt.exemplaire.livre.titre}]]|"></td>
-            <td th:text="${emprunt.typePret}"></td>
-            <td th:text="${emprunt.datePret}"></td>
-            <td th:text="${emprunt.dateRetourPrevu}"></td>
-            <td th:text="${emprunt.statut}"></td>
-        </tr>
-
-    </tbody>
-</table>
-
-<p><a href="/emprunt">Enregistrer un nouveau emprunt</a></p>
-
+        <p style="text-align: center;">
+            <a class="action-button" th:href="@{/emprunt}">➕ Enregistrer un nouveau emprunt</a>
+        </p>
+    </div>
 </body>
 </html>

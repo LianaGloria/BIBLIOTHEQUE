@@ -5,60 +5,106 @@
     <meta charset="UTF-8">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f8f8f8;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f1a22 0%, #1a252f 50%, #243242 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px;
+            color: #ecf0f1;
         }
 
         header {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 30px;
+            gap: 12px;
         }
 
         header a {
             text-decoration: none;
-            color: #1976d2;
-            font-weight: bold;
-            border: 1px solid #1976d2;
-            padding: 6px 12px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
+            color: #d4a332;
+            font-weight: 600;
+            border: 2px solid #d4a332;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(212, 163, 50, 0.1);
         }
 
         header a:hover {
-            background-color: #1976d2;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(187, 143, 43, 0.3);
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 20px;
+            color: #ecf0f1;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 6px;
+            background-color: #2c3e50;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         th, td {
-            padding: 12px;
+            padding: 16px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #34495e;
         }
 
         th {
-            background-color: #1976d2;
+            background: linear-gradient(135deg, #bb8f2b 0%, #d4a332 100%);
             color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: #bdc3c7;
+            background-color: #2c3e50;
+        }
+
+        tr:hover td {
+            background-color: #34495e;
+            transition: background-color 0.3s ease;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         td:last-child {
             text-align: center;
+        }
+
+        .no-penalties {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        .penalty-highlight {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+        }
+
+        .penalty-highlight td {
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .penalty-highlight:hover td {
+            background: rgba(231, 76, 60, 0.2);
         }
     </style>
 </head>
@@ -84,7 +130,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="p : ${penalites}">
+        <tr th:each="p : ${penalites}" class="penalty-highlight">
             <td th:text="${p.emprunt.exemplaire.livre.titre}">Titre</td>
             <td th:text="${p.dateCreation}">2025-07-08</td>
             <td th:text="${p.nbJoursRetard}">2</td>
@@ -92,7 +138,7 @@
             <td th:text="${p.dateEmpruntAutorise}">2025-07-13</td>
         </tr>
         <tr th:if="${penalites.isEmpty()}">
-            <td colspan="5" style="text-align:center;">Aucune pénalité en cours</td>
+            <td colspan="5" class="no-penalties">Aucune pénalité en cours</td>
         </tr>
     </tbody>
 </table>
