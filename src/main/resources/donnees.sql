@@ -1,7 +1,7 @@
 -- Insertion des profils
 INSERT INTO profils (nom, duree_sur_place, duree_emporte, duree_prolongation, duree_adhesion, cotisation, penalites)
 VALUES
-  ('etudiant', 3, 5, 2, 6, 3000.00, 2),
+  ('etudiant', 3, 5, 2, 6, 8081.00, 2),
   ('universitaire', 5, 10, 3, 12, 8000.00, 4),
   ('professionnel', 4, 7, 2, 12, 12000.00, 6);
 
