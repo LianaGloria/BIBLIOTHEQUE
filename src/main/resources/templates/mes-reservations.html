@@ -175,7 +175,8 @@
                 <td>
                     <span class="status-badge" 
                           th:text="${res.statutReservation}"
-                          th:classappend="${res.statutReservation.toLowerCase().replace('_', '-')}">
+                          th:classappend="${res.statutReservationFormatted}
+">
                         en_attente
                     </span>
                 </td>

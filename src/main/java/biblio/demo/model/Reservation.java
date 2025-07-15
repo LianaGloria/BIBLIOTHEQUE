@@ -51,6 +51,10 @@ public class Reservation {
 
     // Getters & Setters
 
+    public String getStatutReservationFormatted() {
+    return statutReservation.name().toLowerCase().replace("_", "-");
+}
+
     public Integer getId() {
         return id;
     }
