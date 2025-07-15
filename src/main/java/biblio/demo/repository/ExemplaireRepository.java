@@ -2,6 +2,8 @@ package biblio.demo.repository;
 
 import biblio.demo.model.Exemplaire;
 import biblio.demo.model.Exemplaire.StatutExemplaire;
+import biblio.demo.model.Livre;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +20,7 @@ public interface ExemplaireRepository extends JpaRepository<Exemplaire, Long> {
     boolean existsByLivreIdAndStatut(Long livreId, StatutExemplaire statut);
 
     List<Exemplaire> findByStatut(StatutExemplaire statut);
+
+    List<Exemplaire> findByLivre(Livre livre);
 
 }

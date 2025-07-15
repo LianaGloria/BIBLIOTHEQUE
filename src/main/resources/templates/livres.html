@@ -211,7 +211,7 @@
             <td th:text="${exemplaire.id}">1</td>
             <td>
                 <span class="statut" th:text="${exemplaire.statut.name()}"
-                      th:classappend="${exemplaire.statut == T(biblio.demo.model.Exemplaire.StatutExemplaire).disponible} ? 'disponible' : 'indisponible'">
+                    th:classappend="${exemplaire.statut == T(biblio.demo.model.Exemplaire.StatutExemplaire).disponible} ? 'disponible' : 'indisponible'">
                     Statut
                 </span>
             </td>

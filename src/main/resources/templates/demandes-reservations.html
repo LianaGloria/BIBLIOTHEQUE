@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Demandes de réservations</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f9ff;
+        display: flex;
+    }
+
+    .sidebar {
+        width: 220px;
+        background-color: #0077cc;
+        padding: 20px;
+        height: 100vh;
+        color: white;
+        position: fixed;
+    }
+
+    .sidebar h2 {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+    }
+
+    .sidebar a {
+        display: block;
+        margin: 12px 0;
+        padding: 10px;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .sidebar a:hover {
+        background-color: #3399ff;
+    }
+
+    .content {
+        margin-left: 240px;
+        padding: 30px;
+        width: 100%;
+    }
+
+    h1 {
+        color: #0077cc;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #0077cc;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #eaf4ff;
+    }
+
+    button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-accept {
+        background-color: #4caf50;
+        color: white;
+    }
+
+    .btn-refuse {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .btn-accept:hover {
+        background-color: #388e3c;
+    }
+
+    .btn-refuse:hover {
+        background-color: #c62828;
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Menu</h2>
+    <strong>Actions</strong>
+    <a href="/inscription">Enregistrer un adhérent</a>
+    <a href="/emprunt">Enregistrer un emprunt</a>
+    <a href="/retour">Enregistrer un retour</a>
+    <a href="/prolongations">Demandes de prolongation</a>
+    <a href="/demandes-reservations">Demandes de réservation</a>
+
+    <strong>Listes</strong>
+    <a href="/adherents">Liste des adhérents</a>
+    <a href="/emprunts">Liste des emprunts</a>
+    <a href="/retours">Liste des retours</a>
+    <a href="/liste-prolongations">Liste des prolongations</a>
+    <a href="/liste-exemplaires">Liste des exemplaires</a>
+</div>
+
+<div class="content">
+    <h1>Demandes de réservation en attente</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Adhérent</th>
+                <th>Livre</th>
+                <th>Date demande</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="r : ${reservations}">
+                <td th:text="${r.id}"></td>
+                <td th:text="|${r.adherent.id} - ${r.adherent.nom} ${r.adherent.prenom}|"></td>
+                <td th:text="${r.exemplaire.livre.titre}"></td>
+                <td th:text="${r.dateReservation}"></td>
+                <td>
+                    <form th:action="@{/accepter-reservation/{id}(id=${r.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-accept">Accepter</button>
+                    </form>
+                    <form th:action="@{/refuser-reservation/{id}(id=${r.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-refuse">Refuser</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
